@@ -1,0 +1,37 @@
+version: "3.0"
+services:
+    photonext:
+      platform: linux/x86_64
+      restart: always
+      container_name: 'huuthang_portfolio'
+      build:
+        context: .
+        dockerfile: Dockerfile
+      networks:
+        - traefik_net
+        - mmo
+      ports:
+        - "3869:3869"
+      # labels:
+      #   - 'traefik.enable=true'
+      #   - 'traefik.http.routers.auto_gpt.rule=Host(`autogptvn.com`)'
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.huuthang_portfolio.rule=Host(`huuthang.me`)
+        - traefik.http.routers.huuthang_portfolio.tls=true
+        - traefik.http.routers.huuthang_portfolio.entrypoints=web,websecure
+        # - traefik.http.routers.gpt4.tls.certresolver=mytlschallenge
+        # - traefik.http.middlewares.gpt4.headers.SSLRedirect=true
+        # - traefik.http.middlewares.gpt4.headers.STSSeconds=315360000
+        # - traefik.http.middlewares.gpt4.headers.browserXSSFilter=true
+        # - traefik.http.middlewares.gpt4.headers.contentTypeNosniff=true
+        # - traefik.http.middlewares.gpt4.headers.forceSTSHeader=true
+        # - traefik.http.middlewares.gpt4.headers.SSLHost=autogptvn.com
+        # - traefik.http.middlewares.gpt4.headers.STSIncludeSubdomains=true
+        # - traefik.http.middlewares.gpt4.headers.STSPreload=true
+        # - traefik.http.routers.gpt4.middlewares=n8n@docker
+networks:
+  traefik_net:
+    external: true
+  mmo:
+    external: true
